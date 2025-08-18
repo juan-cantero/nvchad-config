@@ -16,6 +16,37 @@ M.base46 = {
 
 -- M.nvdash = { load_on_startup = true }
 M.ui = {
+  statusline = {
+    theme = "default", -- default/vscode/vscode_colored/minimal
+    separator_style = "default", -- default/round/block/arrow
+    order = {"mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor"},
+    modules = {
+      file = function()
+        local filename = vim.fn.expand("%:p") -- Full path
+        local home = vim.fn.expand("~")
+        filename = filename:gsub("^" .. home, "~") -- Replace /home/user with ~
+        
+        if filename == "" then
+          return "%#StText# [No Name] %#St_file_sep#"
+        end
+        
+        local icon = "󰈚 "
+        -- Get file extension for icon
+        local ext = vim.fn.expand("%:e")
+        if ext ~= "" then
+          local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
+          if devicons_ok then
+            local file_icon = devicons.get_icon(filename, ext, { default = true })
+            if file_icon then
+              icon = file_icon .. " "
+            end
+          end
+        end
+        
+        return "%#StText#" .. icon .. filename .. " %#St_file_sep#"
+      end,
+    },
+  },
   icons = {
     ft = "",
     lsp = {

@@ -194,4 +194,101 @@ return {
       })
     end,
   },
+
+  -- Custom statusline configuration
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("lualine").setup({
+        options = {
+          theme = "auto",
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+        },
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff", "diagnostics" },
+          lualine_c = {
+            {
+              function()
+                local filepath = vim.fn.expand('%:p')
+                if filepath == '' then return '[No Name]' end
+                
+                -- Find git root or project root
+                local git_root = vim.fn.system('git rev-parse --show-toplevel 2>/dev/null'):gsub('\n', '')
+                if vim.v.shell_error == 0 and git_root ~= '' then
+                  -- Get project name (last directory of git root)
+                  local project_name = git_root:match("([^/]+)$")
+                  -- Get relative path from git root (remove git_root prefix)
+                  local relative_path = filepath:gsub('^' .. vim.pesc(git_root) .. '/', '')
+                  return project_name .. '/' .. relative_path
+                end
+                
+                -- Fallback to just filename if no git root
+                return vim.fn.expand('%:t')
+              end,
+              icon = '',
+              color = { fg = '#C678DD', gui = 'bold' }, -- Púrpura brillante y negrita
+            }
+          },
+          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_y = { "progress" },
+          lualine_z = { "location" }
+        },
+      })
+    end,
+  },
+
+  -- Noice.nvim - Beautiful UI for commands, notifications, and messages
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+    config = function()
+      require("noice").setup({
+        lsp = {
+          override = {
+            ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+            ["vim.lsp.util.stylize_markdown"] = true,
+            ["cmp.entry.get_documentation"] = true,
+          },
+        },
+        presets = {
+          bottom_search = true, -- use a classic bottom cmdline for search
+          command_palette = true, -- position the cmdline and popupmenu together
+          long_message_to_split = true, -- long messages will be sent to a split
+          inc_rename = false, -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false, -- add a border to hover docs and signature help
+        },
+        cmdline = {
+          enabled = true, -- enables the Noice cmdline UI
+          view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+          opts = {}, -- global options for the cmdline. See section on views
+        },
+        messages = {
+          enabled = true, -- enables the Noice messages UI
+          view = "notify", -- default view for messages
+          view_error = "notify", -- view for errors
+          view_warn = "notify", -- view for warnings
+          view_history = "messages", -- view for :messages
+          view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        },
+        popupmenu = {
+          enabled = true, -- enables the Noice popupmenu UI
+          backend = "nui", -- backend to use to show regular cmdline completions
+        },
+        notify = {
+          enabled = true,
+          view = "notify",
+        },
+        health = {
+          checker = false, -- Disable if you don't want health checks to run
+        },
+      })
+    end,
+  },
 }

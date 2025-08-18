@@ -677,6 +677,191 @@ z app              # Smart matching to recently visited
 - **Git project detection**: Only shows directories with `.git` folders
 - **Custom directory**: `nv ~/custom/projects/path`
 
+## 🔗 Zellij Multi-Project Workflow (Advanced)
+
+### Zellij Commands & Aliases
+| Alias | Full Command | Action |
+|-------|--------------|--------|
+| `zl` | `zellij list-sessions` | List all active sessions |
+| `za project` | `zwork attach project` | Attach to session or create new |
+| `zs project` | `zwork start project` | Start new session with default layout |
+| `zf project` | `zwork flutter project` | Start with Flutter-optimized layout |
+| `zd project` | `zwork dev project` | Start with development layout |
+
+### Multi-Project Workflow Examples
+
+#### Daily Workflow Setup
+```bash
+# Morning setup - start multiple projects
+zf mobile-app           # Flutter project with hot reload layout
+zd api-backend          # Backend with server/logs/git terminals  
+zs web-frontend         # Frontend with dev server layout
+
+# Check all active sessions
+zl                      # Lists: mobile-app, api-backend, web-frontend
+
+# Switch between projects instantly
+za mobile-app           # Jump to Flutter project
+za api-backend          # Jump to backend
+za web-frontend         # Jump to frontend
+```
+
+#### Session Management
+```bash
+# List projects and sessions
+zwork list              # Shows available projects and active sessions
+
+# Stop specific session  
+zwork stop mobile-app   # Kill mobile-app session
+
+# Clean all sessions
+zwork clean             # Kill all zellij sessions
+```
+
+### Zellij Layouts
+
+#### Flutter Project Layout (`zf project`)
+```
+┌─────────────────────────────────────────────────────┐
+│ [Flutter Dev] [Testing] [DevTools]                  │
+├─────────────────────────────────┬───────────────────┤
+│                                 │ flutter run       │
+│            nvim .               │ Hot reload logs   │
+│         (65% width)             │    (35% width)    │
+│                                 ├───────────────────┤
+│                                 │ git status        │
+│                                 │ git commands      │
+└─────────────────────────────────┴───────────────────┘
+```
+
+#### Development Layout (`zd project`)  
+```
+┌─────────────────────────────────────────────────────┐
+│ [Code] [Monitoring]                                 │
+├─────────────────────────────────┬───────────────────┤
+│                                 │ dev-server        │
+│            nvim .               │ (npm run dev)     │
+│         (70% width)             │    (60% height)   │
+│                                 ├───────────────────┤
+│                                 │ commands          │
+│                                 │ (git, tests)      │
+└─────────────────────────────────┴───────────────────┘
+```
+
+### Zellij Keybindings (Inside Sessions)
+
+#### Pane Navigation
+| Key | Action |
+|-----|--------|
+| `Alt + h/j/k/l` | Move between panes (vim-style) |
+| `Alt + \` | Split pane vertically |
+| `Alt + -` | Split pane horizontally |
+
+#### Tab Management  
+| Key | Action |
+|-----|--------|
+| `Alt + t` | New tab |
+| `Alt + 1/2/3/4/5` | Switch to tab 1-5 |
+
+#### Session Control
+| Key | Action |
+|-----|--------|
+| `Alt + d` | Detach from session (keeps running) |
+| `Alt + q` | Quit session |
+| `Alt + r` | Enter resize mode |
+
+#### Resize Mode (After `Alt + r`)
+| Key | Action |
+|-----|--------|
+| `h/j/k/l` | Resize panes |
+| `Esc/Enter/Space` | Exit resize mode |
+
+### Advanced Multi-Project Scenarios
+
+#### Scenario 1: Full-Stack Development
+```bash
+# Start all related projects
+zf mobile-app           # Flutter frontend
+zd api-server           # Node.js/Python backend  
+zs database-admin       # Database management
+zs devops-scripts       # Deployment scripts
+
+# Work flow:
+za mobile-app           # Code mobile features
+za api-server           # Update API endpoints
+za mobile-app           # Test integration
+za devops-scripts       # Deploy updates
+```
+
+#### Scenario 2: Multiple Client Projects
+```bash
+# Client A
+zf client-a-mobile
+zd client-a-web
+
+# Client B  
+zf client-b-mobile
+zd client-b-backend
+
+# Switch context per client
+za client-a-mobile      # Work on client A
+za client-b-mobile      # Switch to client B
+```
+
+### Zellij vs NvChad Terminals Comparison
+
+| Feature | NvChad Terminals | Zellij Sessions |
+|---------|------------------|------------------|
+| **Project isolation** | Single project focus | Multiple projects simultaneously |
+| **Session persistence** | Lost on nvim close | Survives computer restart |
+| **Layout complexity** | Simple splits | Complex predefined layouts |
+| **Context switching** | Manual navigation | Instant project switching |
+| **Resource usage** | Lower (within nvim) | Higher (separate sessions) |
+| **Integration** | Tight nvim integration | Terminal-based, editor agnostic |
+
+### Recommended Usage Strategy
+
+**Use Zellij when:**
+- Working on 2+ projects simultaneously
+- Need persistent sessions across restarts
+- Complex terminal layouts required
+- Collaborating (easy session sharing)
+
+**Use NvChad terminals when:**
+- Single project focus
+- Quick terminal tasks
+- Tight editor integration needed
+- Minimal resource usage preferred
+
+### Combined Workflow (Best of Both)
+```bash
+# Use Zellij for project management
+za mobile-app           # Enter project session
+
+# Inside the session, use nvim with built-in terminals
+# nvim opens automatically with the layout
+# Use Space + 1/2/3/4 for nvim terminal tabs
+# Use Alt + h/j/k/l for zellij pane navigation
+```
+
+### Quick Setup Test
+```bash
+# Reload configuration
+source ~/.bashrc
+
+# Test zellij installation
+zellij --version
+
+# Test workflow manager
+zwork help
+
+# List available projects (create ~/projects if needed)
+zwork list
+
+# Try starting a test session
+zs test-project
+```
+
 ---
 
 **Remember**: Leader key is `Space` - most commands start with it!
