@@ -116,7 +116,41 @@ end, { desc = "Edit snippets for current filetype" })
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Restore Session" })
 map("n", "<leader>ql", function() require("persistence").load({ last = true }) end, { desc = "Restore Last Session" })
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Don't Save Current Session" })
-map("n", "<leader>ss", function() require("persistence").save() end, { desc = "Save Session" })
+map("n", "<leader>ss", function() 
+  require("persistence").save()
+  vim.notify("💾 Session saved successfully!", vim.log.levels.INFO, { title = "Session Manager" })
+end, { desc = "Save Session" })
+
+-- Buffer management (to reduce buffered files)
+map("n", "<leader>bd", ":bd<CR>", { desc = "Close current buffer" })
+map("n", "<leader>ba", ":%bd|e#<CR>", { desc = "Close all buffers except current" })
+map("n", "<leader>bc", function()
+  local current_buf = vim.api.nvim_get_current_buf()
+  local buffers = vim.api.nvim_list_bufs()
+  local count = 0
+  for _, buf in ipairs(buffers) do
+    if vim.api.nvim_buf_is_loaded(buf) and buf ~= current_buf then
+      if vim.api.nvim_buf_get_option(buf, 'modified') == false then
+        vim.api.nvim_buf_delete(buf, {})
+        count = count + 1
+      end
+    end
+  end
+  vim.notify("🧹 Cleaned " .. count .. " unused buffers", vim.log.levels.INFO, { title = "Buffer Manager" })
+end, { desc = "Clean unused buffers" })
+
+-- Swap file management
+map("n", "<leader>sw", function()
+  local swap_files = vim.fn.glob("**/*.swp", false, true)
+  if #swap_files > 0 then
+    for _, file in ipairs(swap_files) do
+      vim.fn.delete(file)
+    end
+    vim.notify("🧹 Cleaned " .. #swap_files .. " swap files", vim.log.levels.INFO, { title = "Swap Manager" })
+  else
+    vim.notify("✅ No swap files found", vim.log.levels.INFO, { title = "Swap Manager" })
+  end
+end, { desc = "Clean swap files" })
 
 -- Dart LSP formatting and code actions
 vim.api.nvim_create_autocmd("FileType", {

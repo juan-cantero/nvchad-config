@@ -299,10 +299,17 @@ return {
     config = function()
       require("persistence").setup({
         dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
-        options = { "buffers", "curdir", "tabpages", "winsize" },
+        options = { "curdir", "tabpages", "winsize" }, -- Removed "buffers" to reduce hidden buffers
         pre_save = function()
           -- Clean up before saving
           pcall(vim.cmd, "NvimTreeClose")
+          -- Close hidden buffers to keep session clean
+          vim.cmd("silent! %bd|e#|bd#")
+          -- Clean up any swap files
+          local swap_files = vim.fn.glob("**/*.swp", false, true)
+          for _, file in ipairs(swap_files) do
+            vim.fn.delete(file)
+          end
         end,
       })
       
