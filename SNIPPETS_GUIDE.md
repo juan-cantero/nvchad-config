@@ -23,6 +23,35 @@ Your snippets are organized by language in separate files:
 
 ## 🎯 **How to Use Snippets**
 
+### **What are Snippets?**
+**Snippets** are shortcuts that expand small text into complete code templates. They save you time by typing less!
+
+**Example:** Type `pd` → Press `Tab` → Becomes `print('🐛 DEBUG: message');`
+
+### **Key Terminology:**
+- **🔑 Trigger:** The short text you type (like `pd`, `stless`)
+- **🚀 Expand:** Convert the trigger into full code template
+- **📍 Placeholder:** Highlighted text you can replace with your content
+- **🎯 Navigate:** Move between placeholders to fill them in
+
+### **Understanding Keyboard Shortcuts:**
+- **`<C-j>`** = **Ctrl + j** (hold Ctrl, press j)
+- **`<C-k>`** = **Ctrl + k** (hold Ctrl, press k)  
+- **`<C-l>`** = **Ctrl + l** (hold Ctrl, press l)
+- **`Tab`** = Tab key (most common way to expand)
+
+### **Step-by-Step Example:**
+```dart
+1. Open a .dart file
+2. Type: stless
+3. Press Tab (snippet expands)
+4. You see: StatelessWidget template with highlighted "MyWidget"
+5. Type your widget name (replaces "MyWidget")
+6. Press Ctrl+j to move to next placeholder
+7. Type your widget content
+8. Done! Complete widget created
+```
+
 ### **Basic Usage**
 1. **Type the snippet trigger** (e.g., `pd`)
 2. **Press `Tab`** or use completion to expand
@@ -212,11 +241,17 @@ While in insert mode in a file:
 2. **Look for snippet entries** (usually marked with `~` or snippet icon)
 3. **Browse through available snippets** for current file type
 
-### **Method 2: LuaSnip commands**
-```vim
-:LuaSnipEdit
-```
-Opens an editor showing all snippets for the current file type.
+### **Method 2: Custom keybindings (Recommended)**
+**Source:** `/home/juan/.config/nvim/lua/mappings.lua:101-113`
+
+| Key | Command | Description |
+|-----|---------|-------------|
+| `<leader>sl` | `:SnippetsList` | List all available snippets |
+| `<leader>se` | Edit snippets file | Edit snippets for current file type |
+
+**Usage:**
+- Press `Space + sl` to see all snippets
+- Press `Space + se` to edit snippets (opens appropriate file)
 
 ### **Method 3: View snippet source files**
 ```vim
@@ -358,7 +393,7 @@ When you modify snippets:
 - **Total custom snippets:** 45+ across 4 languages
 - **Languages supported:** Dart, Flutter, TypeScript/JavaScript, Go
 - **Navigation:** `Ctrl+j/k/l` for placeholder management
-- **View all:** `:LuaSnipEdit` or check source files
+- **View all:** `<leader>sl` (Space + sl) or `:SnippetsList`
 - **Reload:** `:source ~/.config/nvim/init.lua`
 
 Your snippet system is designed for **maximum productivity** in your development workflow! 🚀

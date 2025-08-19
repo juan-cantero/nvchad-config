@@ -99,7 +99,18 @@ map("v", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Copilot Explain Sele
 
 -- Snippets management
 map("n", "<leader>sl", ":SnippetsList<CR>", { desc = "List all snippets" })
-map("n", "<leader>se", ":LuaSnipEdit<CR>", { desc = "Edit snippets for current filetype" })
+map("n", "<leader>se", function()
+  local ft = vim.bo.filetype
+  if ft == "dart" then
+    vim.cmd("edit ~/.config/nvim/lua/snippets/dart.lua")
+  elseif ft == "typescript" or ft == "javascript" then
+    vim.cmd("edit ~/.config/nvim/lua/snippets/typescript.lua")
+  elseif ft == "go" then
+    vim.cmd("edit ~/.config/nvim/lua/snippets/go.lua")
+  else
+    vim.cmd("edit ~/.config/nvim/lua/snippets/")
+  end
+end, { desc = "Edit snippets for current filetype" })
 
 -- Dart LSP formatting and code actions
 vim.api.nvim_create_autocmd("FileType", {
