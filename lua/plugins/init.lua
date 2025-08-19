@@ -291,4 +291,23 @@ return {
       })
     end,
   },
+
+  -- Session Management (like VS Code)
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    config = function()
+      require("persistence").setup({
+        dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
+        options = { "buffers", "curdir", "tabpages", "winsize" },
+        pre_save = function()
+          -- Clean up before saving
+          pcall(vim.cmd, "NvimTreeClose")
+        end,
+      })
+      
+      -- No auto-restore - let user control via keybindings
+      -- Dashboard will always show, use <leader>ql to restore last session
+    end,
+  },
 }

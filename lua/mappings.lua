@@ -112,6 +112,12 @@ map("n", "<leader>se", function()
   end
 end, { desc = "Edit snippets for current filetype" })
 
+-- Session Management (Persistence.nvim)
+map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Restore Session" })
+map("n", "<leader>ql", function() require("persistence").load({ last = true }) end, { desc = "Restore Last Session" })
+map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Don't Save Current Session" })
+map("n", "<leader>ss", function() require("persistence").save() end, { desc = "Save Session" })
+
 -- Dart LSP formatting and code actions
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "dart",

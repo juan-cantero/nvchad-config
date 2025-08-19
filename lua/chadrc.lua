@@ -55,8 +55,53 @@ M.ui = {
   },
 }
 
--- Alternative: Configure nvim-tree with simpler icons
-M.nvdash = { load_on_startup = false }
+-- NvChad Dashboard configuration
+M.nvdash = {
+  load_on_startup = true,
+  
+  header = {
+    "⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣴⣶⣶⣶⣶⣦⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⠀⠀⣠⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣦⣄⠀⠀⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⠏⠁⠀⢶⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀",
+    "⠀⢀⢀⣾⣿⣿⣿⣿⣿⣿⡿⠿⣿⡇⠀⠀⠀⣿⠿⢿⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀",
+    "⠀⢠⣾⣿⣿⣿⣿⣿⡿⠋⣠⣴⣿⣷⣤⣤⣾⣿⣦⣄⠙⢿⣿⣿⣿⣿⣿⣷⡄⠀",
+    "⠀⣼⣿⣿⣿⣿⣿⡏⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡀⢹⣿⣿⣿⣿⣿⣧⠀",
+    "⢰⣿⣿⣿⣿⣿⡿⠀⣾⣿⣿⣿⣿⠟⠉⠉⠻⣿⣿⣿⣿⣷⠀⢿⣿⣿⣿⣿⣿⡆",
+    "⢸⣿⣿⣿⣿⣿⣇⣰⣿⣿⣿⣿⡇⠀⠀⠀⠀⢸⣿⣿⣿⣿⣆⣸⣿⣿⣿⣿⣿⡇",
+    "⠸⣿⣿⣿⡿⣿⠟⠋⠙⠻⣿⣿⣿⣦⣀⣀⣴⣿⣿⣿⣿⠛⠙⠻⣿⣿⣿⣿⣿⠇",
+    "⠀⢻⣿⣿⣧⠉⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠈⣿⣿⣿⡟⠀",
+    "⠀⠘⢿⣿⣿⣷⣦⣤⣴⣾⠛⠻⢿⣿⣿⣿⣿⡿⠟⠋⣿⣦⣤⠀⣰⣿⣿⡿⠃⠀",
+    "⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣄⣈⣁⣠⣤⣶⣾⣿⣿⣷⣾⣿⣿⡿⠁⠀⠀",
+    "⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⠀⠀⠙⠻⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀",
+    "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⠻⠿⠿⠿⠿⠟⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+    "",
+    "         🚀 Welcome to NvChad - Juan's Dev Setup 🚀         ",
+    "        ⚡ Ready for Flutter, Go, TypeScript & More ⚡        ",
+  },
+
+  buttons = {
+    { txt = "  Find File", keys = "ff", cmd = "Telescope find_files" },
+    { txt = "  Recent Files", keys = "fo", cmd = "Telescope oldfiles" },
+    { txt = "  Find Word", keys = "fw", cmd = "Telescope live_grep" },
+    { txt = "  Restore Last Session", keys = "ql", cmd = "lua require('persistence').load({ last = true })" },
+    { txt = "  Themes", keys = "th", cmd = "Telescope themes" },
+    { txt = "  Mappings", keys = "ch", cmd = "NvCheatsheet" },
+    { txt = "─", hl = "NvDashLazy", no_gap = true, rep = true },
+
+    {
+      txt = function()
+        local stats = require("lazy").stats()
+        local ms = math.floor(stats.startuptime) .. " ms"
+        return "  Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms
+      end,
+      hl = "NvDashLazy",
+      no_gap = true,
+    },
+
+    { txt = "─", hl = "NvDashLazy", no_gap = true, rep = true },
+  },
+}
 
 -- Custom icon configuration for nvim-tree (disable file icons, keep git icons)
 M.plugins = "plugins.configs.nvim-tree-simple"
