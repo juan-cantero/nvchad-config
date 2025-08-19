@@ -97,6 +97,10 @@ map("n", "<leader>ct", ":CopilotChatTests<CR>", { desc = "Copilot Generate Tests
 map("v", "<leader>cc", ":CopilotChatVisual<CR>", { desc = "Copilot Chat Visual" })
 map("v", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Copilot Explain Selection" })
 
+-- Snippets management
+map("n", "<leader>sl", ":SnippetsList<CR>", { desc = "List all snippets" })
+map("n", "<leader>se", ":LuaSnipEdit<CR>", { desc = "Edit snippets for current filetype" })
+
 -- Dart LSP formatting and code actions
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "dart",
