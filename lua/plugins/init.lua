@@ -301,10 +301,20 @@ return {
         dir = vim.fn.expand(vim.fn.stdpath("state") .. "/sessions/"),
         options = { "curdir", "tabpages", "winsize" }, -- Removed "buffers" to reduce hidden buffers
         pre_save = function()
-          -- Clean up before saving
-          pcall(vim.cmd, "NvimTreeClose")
-          -- Close hidden buffers to keep session clean
-          vim.cmd("silent! %bd|e#|bd#")
+          -- Only close problematic floating windows (notifications, etc.)
+          for _, win in ipairs(vim.api.nvim_list_wins()) do
+            local config = vim.api.nvim_win_get_config(win)
+            -- Close floating windows that are not editor-relative (notifications, popups)
+            if config.relative ~= "" and config.relative ~= "editor" then
+              pcall(vim.api.nvim_win_close, win, true)
+            end
+          end
+          
+          -- Close help, quickfix, and other temporary special buffers
+          vim.cmd("silent! cclose")     -- Close quickfix
+          vim.cmd("silent! lclose")     -- Close location list
+          vim.cmd("silent! helpclose")  -- Close help
+          
           -- Clean up any swap files
           local swap_files = vim.fn.glob("**/*.swp", false, true)
           for _, file in ipairs(swap_files) do

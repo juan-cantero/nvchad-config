@@ -116,10 +116,27 @@ end, { desc = "Edit snippets for current filetype" })
 map("n", "<leader>qs", function() require("persistence").load() end, { desc = "Restore Session" })
 map("n", "<leader>ql", function() require("persistence").load({ last = true }) end, { desc = "Restore Last Session" })
 map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Don't Save Current Session" })
+-- Save session preserving terminals and layout
 map("n", "<leader>ss", function() 
   require("persistence").save()
-  vim.notify("💾 Session saved successfully!", vim.log.levels.INFO, { title = "Session Manager" })
+  vim.notify("💾 Session saved! (with terminals & layout)", vim.log.levels.INFO, { title = "Session Manager" })
 end, { desc = "Save Session" })
+
+-- Session cleanup test (clean workspace without saving)
+map("n", "<leader>sc", function()
+  -- Close NvimTree
+  pcall(vim.cmd, "NvimTreeClose")
+  -- Close all terminals
+  pcall(vim.cmd, "ToggleTermCloseAll")
+  -- Close floating windows
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local config = vim.api.nvim_win_get_config(win)
+    if config.relative ~= "" then
+      pcall(vim.api.nvim_win_close, win, true)
+    end
+  end
+  vim.notify("🧹 Workspace cleaned! (NvimTree, terminals, floating windows)", vim.log.levels.INFO, { title = "Session Manager" })
+end, { desc = "Clean workspace" })
 
 -- Buffer management (to reduce buffered files)
 map("n", "<leader>bd", ":bd<CR>", { desc = "Close current buffer" })
@@ -151,6 +168,17 @@ map("n", "<leader>sw", function()
     vim.notify("✅ No swap files found", vim.log.levels.INFO, { title = "Swap Manager" })
   end
 end, { desc = "Clean swap files" })
+
+-- Dashboard access
+map("n", "<leader>od", function()
+  -- Close current buffer if it's not modified
+  local current_buf = vim.api.nvim_get_current_buf()
+  if vim.api.nvim_buf_get_option(current_buf, 'modified') == false then
+    vim.cmd("enew") -- Create new empty buffer
+  end
+  -- Open dashboard
+  require("nvchad.nvdash").open()
+end, { desc = "Open Dashboard" })
 
 -- Dart LSP formatting and code actions
 vim.api.nvim_create_autocmd("FileType", {

@@ -25,6 +25,7 @@ This guide covers everything you need to know about managing your work, sessions
 |---------|-----|--------------|
 | **Save File** | `Ctrl+S` or `:w` | Save current file |
 | **Save Session** | `<leader>ss` | Save entire workspace session |
+| **Open Dashboard** | `<leader>od` | Open dashboard anytime |
 | **Restore Last Session** | `ls` (dashboard) | Load your last session |
 | **Clean Buffers** | `<leader>bc` | Clean unused files from memory |
 | **Exit Neovim** | `q` (dashboard) or `:qa` | Quit all windows |
@@ -76,10 +77,11 @@ Sessions save your entire workspace: open files, window layout, current director
 <leader>ss    " (Space + ss)
 ```
 **What happens:**
-1. ✅ Saves current session
-2. 🧹 Cleans hidden buffers
-3. 🧹 Removes swap files
-4. 💬 Shows notification: "💾 Session saved successfully!"
+1. ✅ Saves current session with your layout
+2. ✅ Keeps terminals and their positions
+3. ✅ Keeps NvimTree if open
+4. 🧹 Only removes problematic floating windows (notifications, etc.)
+5. 💬 Shows notification: "💾 Session saved! (with terminals & layout)"
 
 #### **Method 2: Manual Command**
 ```vim
@@ -279,7 +281,7 @@ nvim                    # Opens to dashboard
 ### **Session Operations:**
 | Command | Key | Description |
 |---------|-----|-------------|
-| Save session | `<leader>ss` | Save current workspace |
+| Save session | `<leader>ss` | Save workspace (with terminals & layout) |
 | Load last session | `<leader>ql` | Restore last session |
 | Load directory session | `<leader>qs` | Restore current dir session |
 | Stop session saving | `<leader>qd` | Don't save on exit |
@@ -290,6 +292,11 @@ nvim                    # Opens to dashboard
 | Clean unused buffers | `<leader>bc` | Remove hidden buffers |
 | Close all except current | `<leader>ba` | Keep only current file |
 | List buffers | `:ls` | Show all open buffers |
+
+### **Navigation:**
+| Command | Key | Description |
+|---------|-----|-------------|
+| Open dashboard | `<leader>od` | Access dashboard anytime |
 
 ### **Maintenance:**
 | Command | Key | Description |
