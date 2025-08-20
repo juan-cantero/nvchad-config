@@ -91,7 +91,7 @@ Sessions save your entire workspace: open files, window layout, current director
 ### **🔄 Restoring Sessions**
 
 #### **From Dashboard (Recommended):**
-- Start Neovim → Dashboard appears
+- Start Neovim → Dashboard appears with your beautiful robot
 - Press `ls` → Restore Last Session
 - Press `cs` → Session for Current Directory
 
@@ -171,9 +171,13 @@ This gives you unlimited undo history between sessions (better than swap files).
 ### **📅 Daily Workflow:**
 
 #### **🌅 Starting Work:**
-1. Open Neovim → Dashboard appears
-2. Press `ls` to restore your last session
-3. Continue where you left off
+1. **Navigate to project:** `cd ~/my-project`
+2. **Open Neovim:** `nvim`
+3. **Dashboard appears** with your custom robot
+4. **Choose your action:**
+   - Press `ls` → Restore your last session
+   - Press `cs` → Restore session for current directory
+   - Press `ff` → Find and open files
 
 #### **💻 During Work:**
 1. **Save files frequently:** `:w` or `<Ctrl+S>`
@@ -303,6 +307,19 @@ nvim                    # Opens to dashboard
 |---------|-----|-------------|
 | Clean swap files | `<leader>sw` | Remove .swp files |
 | Exit Neovim | `:qa` | Quit all windows |
+
+### **Tab Management:**
+| Command | Key | Description |
+|---------|-----|-------------|
+| Move tab right | `<leader>t>` | Move current tab one position right |
+| Move tab left | `<leader>t<` | Move current tab one position left |
+| Move tab to first | `<leader>tf` | Move current tab to beginning |
+| Move tab to last | `<leader>tl` | Move current tab to end |
+| Close current tab | `<leader>tc` | Close entire tab |
+| Go to tab 1 | `<leader>1` | Jump to first tab |
+| Go to tab 2 | `<leader>2` | Jump to second tab |
+| Go to tab 3 | `<leader>3` | Jump to third tab |
+| Go to tab 4 | `<leader>4` | Jump to fourth tab |
 
 ### **Dashboard (on startup):**
 | Key | Action |

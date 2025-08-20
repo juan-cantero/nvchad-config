@@ -29,7 +29,12 @@ map("t", "<C-w>j", "<C-\\><C-n><C-w>j", { desc = "Terminal: Move down" })
 map("t", "<C-w>k", "<C-\\><C-n><C-w>k", { desc = "Terminal: Move up" })
 map("t", "<C-w>l", "<C-\\><C-n><C-w>l", { desc = "Terminal: Move right" })
 
--- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")
+-- Save with Ctrl+S (works in normal, insert, and visual modes)
+map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>", { desc = "Save file" })
+
+-- Alternative save shortcuts (in case Ctrl+S has issues)
+map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+map("i", "<C-w>", "<Esc>:w<CR>a", { desc = "Save file in insert mode" })
 
 -- Flutter specific mappings
 map("n", "<leader>fr", ":FlutterRun<CR>", { desc = "Flutter Run" })
@@ -81,6 +86,13 @@ map("n", "<leader>T2", ":2ToggleTerm<CR>", { desc = "ToggleTerm 2" })
 map("n", "<leader>T3", ":3ToggleTerm<CR>", { desc = "ToggleTerm 3" })
 map("n", "<leader>T4", ":4ToggleTerm<CR>", { desc = "ToggleTerm 4" })
 
+-- Tab movement and management
+map("n", "<leader>t>", ":tabmove +1<CR>", { desc = "Move tab right" })
+map("n", "<leader>t<", ":tabmove -1<CR>", { desc = "Move tab left" })
+map("n", "<leader>tf", ":tabmove 0<CR>", { desc = "Move tab to first" })
+map("n", "<leader>tl", ":tabmove<CR>", { desc = "Move tab to last" })
+map("n", "<leader>tc", ":tabclose<CR>", { desc = "Close current tab" })
+
 -- Dart specific mappings
 map("n", "<leader>da", ":DartAnalyzer<CR>", { desc = "Dart Analyzer" })
 map("n", "<leader>df", ":DartFmt<CR>", { desc = "Dart Format" })
@@ -96,6 +108,15 @@ map("n", "<leader>cd", ":CopilotChatDocs<CR>", { desc = "Copilot Generate Docs" 
 map("n", "<leader>ct", ":CopilotChatTests<CR>", { desc = "Copilot Generate Tests" })
 map("v", "<leader>cc", ":CopilotChatVisual<CR>", { desc = "Copilot Chat Visual" })
 map("v", "<leader>ce", ":CopilotChatExplain<CR>", { desc = "Copilot Explain Selection" })
+
+-- Lazygit mappings
+map("n", "<leader>lg", "<cmd>LazyGit<CR>", { desc = "LazyGit" })
+map("n", "<leader>gg", "<cmd>LazyGit<CR>", { desc = "LazyGit (alternative)" })
+map("n", "<leader>gc", "<cmd>LazyGitCurrentFile<CR>", { desc = "LazyGit Current File" })
+map("n", "<leader>gf", "<cmd>LazyGitFilter<CR>", { desc = "LazyGit Filter" })
+
+-- Telescope file browser - simplified  
+map("n", "<leader>fa", "<cmd>Telescope file_browser<CR>", { desc = "File Access/Browser" })
 
 -- Snippets management
 map("n", "<leader>sl", ":SnippetsList<CR>", { desc = "List all snippets" })

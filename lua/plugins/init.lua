@@ -26,6 +26,15 @@ return {
   	},
   },
 
+  -- Enhanced Telescope with file/folder creation and directory navigation
+  {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("configs.telescope")
+    end,
+  },
+
   -- Flutter/Dart plugins
   {
     "akinsho/flutter-tools.nvim",
@@ -292,6 +301,57 @@ return {
     end,
   },
 
+  -- Bracket pair colorizer (rainbow brackets) - Modern and stable
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    lazy = false,
+    config = function()
+      local rainbow_delimiters = require("rainbow-delimiters")
+      
+      vim.g.rainbow_delimiters = {
+        strategy = {
+          [""] = rainbow_delimiters.strategy["global"],
+          vim = rainbow_delimiters.strategy["local"],
+        },
+        query = {
+          [""] = "rainbow-delimiters",
+          lua = "rainbow-blocks",
+        },
+        priority = {
+          [""] = 110,
+          lua = 210,
+        },
+        highlight = {
+          "RainbowDelimiterRed",
+          "RainbowDelimiterYellow", 
+          "RainbowDelimiterBlue",
+          "RainbowDelimiterOrange",
+          "RainbowDelimiterGreen",
+          "RainbowDelimiterViolet",
+          "RainbowDelimiterCyan",
+        },
+      }
+    end,
+  },
+
+  -- Lazygit integration
+  {
+    "kdheepak/lazygit.nvim",
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+    }
+  },
+
   -- Session Management (like VS Code)
   {
     "folke/persistence.nvim",
@@ -323,8 +383,8 @@ return {
         end,
       })
       
-      -- No auto-restore - let user control via keybindings
-      -- Dashboard will always show, use <leader>ql to restore last session
+      -- Dashboard always shows on startup, sessions are manually controlled
+      -- Use dashboard buttons: ls (restore last), cs (current directory session)
     end,
   },
 }
